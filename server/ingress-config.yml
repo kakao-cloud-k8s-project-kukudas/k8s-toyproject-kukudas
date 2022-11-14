@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-page # ingress 명 
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - http:
+      paths:
+        - path: / # 기본 디렉토리 
+          pathType: Prefix
+          backend:
+            service:
+              name: default # 서비스 이름 
+              port:
+                number: 80 # nodePort Service의 포트 번호
+
+
+
+
+        - path: /nginx
+          pathType: Prefix
+          backend:
+            service:
+              name: nginx
+              port:
+                number: 80
+
+
+        - path: /dashboard2
+          pathType: Prefix
+          backend:
+            service:
+              name: dashboard2
+              port:
+                number: 80

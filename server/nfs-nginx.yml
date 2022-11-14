@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: default
+  template:
+    metadata:
+      name: default
+      labels:
+        app: default
+    spec:
+      containers:
+      - name: default
+        image: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: defaultvol
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: defaultvol
+        configMap:
+          name: defaultcm
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: default
+spec:
+  ports:
+  - name: default-port
+    port: 80             
+    targetPort: 80       
+    nodePort: 30000    
+  selector:
+    app: default
+  type: NodePort
