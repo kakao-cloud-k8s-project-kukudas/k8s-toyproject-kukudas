@@ -15,12 +15,12 @@ spec:
     spec:
       containers:
       - name: default
-        image: nginx
+        image: httpd
         ports:
         - containerPort: 80
         volumeMounts:
         - name: defaultvol
-          mountPath: /usr/share/nginx/html
+          mountPath: /usr/local/apache2/htdocs
       volumes:
       - name: defaultvol
         configMap:
@@ -33,9 +33,9 @@ metadata:
 spec:
   ports:
   - name: default-port
-    port: 80             
-    targetPort: 80       
-    nodePort: 30000    
+    port: 80             # service의 포트(노드의 포트 아님. 노드포트는 할당해주지 않아도 자동 할당)
+    targetPort: 80       # Pod의 포트
+    nodePort: 30001      # 안해도 되지만 그냥 해줌
   selector:
     app: default
   type: NodePort
